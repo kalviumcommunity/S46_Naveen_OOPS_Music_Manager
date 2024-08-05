@@ -12,7 +12,10 @@ private:
 
 public:
     // Constructor to initialize the Song object with a title and an artist
-    Song(string t, string a) : title(t), artist(a) {}
+    Song(string t, string a) {
+        this->title = t;
+        this->artist = a;
+    }
 
     // Function to display the details of the song
     void display() const {
@@ -21,7 +24,7 @@ public:
 
     // Function to get the title of the song
     string getTitle() const {
-        return title;
+        return this->title;
     }
 };
 
@@ -33,12 +36,12 @@ private:
 public:
     // Function to add a song to the playlist
     void addSong(const Song &song) {
-        songs.push_back(song);
+        this->songs.push_back(song);
     }
 
     // Function to display all songs in the playlist
     void displayAll() const {
-        for (const auto &song : songs) {
+        for (const auto &song : this->songs) {
             song.display();
         }
     }
