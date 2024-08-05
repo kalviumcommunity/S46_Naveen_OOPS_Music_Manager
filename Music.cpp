@@ -48,16 +48,20 @@ public:
 };
 
 int main() {
-    // Creating Song objects
-    Song song1("Song One", "Artist A");
-    Song song2("Song Two", "Artist B");
+    // Creating an array of Song objects
+    Song songArray[] = {
+        Song("Song One", "Artist A"),
+        Song("Song Two", "Artist B"),
+        Song("Song Three", "Artist C")
+    };
 
     // Creating a Playlist object
     Playlist myPlaylist;
 
-    // Adding songs to the playlist
-    myPlaylist.addSong(song1);
-    myPlaylist.addSong(song2);
+    // Adding songs from the array to the playlist
+    for (Song &song : songArray) {
+        myPlaylist.addSong(song);
+    }
 
     // Displaying all songs in the playlist
     myPlaylist.displayAll();
