@@ -12,7 +12,7 @@ private:
 
     // Static variables to keep track of the number of Song objects
     static int songCount;
-    
+
 public:
     // Constructor to initialize the Song object with a title and an artist
     Song(string t, string a) : title(t), artist(a) {
@@ -38,6 +38,11 @@ public:
     // Static function to get the number of Song objects created
     static int getSongCount() {
         return songCount;
+    }
+
+    // Static function to display a message for all Song objects
+    static void displayMessage() {
+        cout << "Static message for all Song objects!" << endl;
     }
 };
 
@@ -85,6 +90,9 @@ public:
 int Playlist::playlistCount = 0;
 
 int main() {
+    // Call the static member function of Song before creating any Song objects
+    Song::displayMessage();
+
     // Creating an array of pointers to Song objects
     Song* songArray[] = {
         new Song("Song One", "Artist A"),
