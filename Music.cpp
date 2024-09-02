@@ -48,23 +48,31 @@ public:
 };
 
 int main() {
-    // Creating an array of Song objects
-    Song songArray[] = {
-        Song("Song One", "Artist A"),
-        Song("Song Two", "Artist B"),
-        Song("Song Three", "Artist C")
+    // Creating an array of pointers to Song objects
+    Song* songArray[] = {
+        new Song("Song One", "Artist A"),
+        new Song("Song Two", "Artist B"),
+        new Song("Song Three", "Artist C")
     };
 
     // Creating a Playlist object
-    Playlist myPlaylist;
+    Playlist* myPlaylist = new Playlist();
 
     // Adding songs from the array to the playlist
-    for (Song &song : songArray) {
-        myPlaylist.addSong(song);
+    for (Song* song : songArray) {
+        myPlaylist->addSong(*song);
     }
 
     // Displaying all songs in the playlist
-    myPlaylist.displayAll();
+    myPlaylist->displayAll();
+
+    // Deleting dynamically allocated Song objects
+    for (Song* song : songArray) {
+        delete song;
+    }
+
+    // Deleting the dynamically allocated Playlist object
+    delete myPlaylist;
 
     return 0;
 }
