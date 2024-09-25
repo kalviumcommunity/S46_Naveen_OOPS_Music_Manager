@@ -10,13 +10,11 @@ private:
     string title;  // Private member variable to store the title of the song
     string artist; // Private member variable to store the artist of the song
 
-    // Static variables to keep track of the number of Song objects
-    static int songCount;
+    static int songCount; // Static variable to keep track of the number of Song objects
 
 public:
     // Constructor to initialize the Song object with a title and an artist
     Song(string t, string a) : title(t), artist(a) {
-        // Increment songCount every time a new Song object is created
         songCount++;
     }
 
@@ -25,14 +23,24 @@ public:
         songCount--;
     }
 
-    // Function to display the details of the song
-    void display() const {
-        cout << "Title: " << title << ", Artist: " << artist << endl;
+    // Accessor for title
+    string getTitle() const {
+        return title;
     }
 
-    // Function to get the title of the song
-    string getTitle() const {
-        return this->title;
+    // Mutator for title
+    void setTitle(const string &t) {
+        title = t;
+    }
+
+    // Accessor for artist
+    string getArtist() const {
+        return artist;
+    }
+
+    // Mutator for artist
+    void setArtist(const string &a) {
+        artist = a;
     }
 
     // Static function to get the number of Song objects created
@@ -40,9 +48,9 @@ public:
         return songCount;
     }
 
-    // Static function to display a message for all Song objects
-    static void displayMessage() {
-        cout << "Static message for all Song objects!" << endl;
+    // Function to display the details of the song
+    void display() const {
+        cout << "Title: " << title << ", Artist: " << artist << endl;
     }
 };
 
@@ -53,9 +61,7 @@ int Song::songCount = 0;
 class Playlist {
 private:
     vector<Song> songs; // Private member variable to store the list of songs in the playlist
-
-    // Static variable to keep track of the number of Playlist objects
-    static int playlistCount;
+    static int playlistCount; // Static variable to keep track of the number of Playlist objects
 
 public:
     // Constructor to initialize the Playlist object and increment playlistCount
@@ -90,24 +96,23 @@ public:
 int Playlist::playlistCount = 0;
 
 int main() {
-    // Call the static member function of Song before creating any Song objects
-    Song::displayMessage();
+    // Creating Song objects with dynamic memory allocation
+    Song* song1 = new Song("Song One", "Artist A");
+    Song* song2 = new Song("Song Two", "Artist B");
 
-    // Creating an array of pointers to Song objects
-    Song* songArray[] = {
-        new Song("Song One", "Artist A"),
-        new Song("Song Two", "Artist B"),
-        new Song("Song Three", "Artist C")
-    };
+    // Displaying song details
+    song1->display();
+    song2->display();
 
-    // Creating Playlist objects
+    // Using mutator to change song details
+    song1->setTitle("Updated Song One");
+    song1->setArtist("Updated Artist A");
+    song1->display(); // Display updated details
+
+    // Creating a Playlist object
     Playlist* myPlaylist = new Playlist();
-    Playlist* anotherPlaylist = new Playlist();
-
-    // Adding songs from the array to the playlist
-    for (Song* song : songArray) {
-        myPlaylist->addSong(*song);
-    }
+    myPlaylist->addSong(*song1);
+    myPlaylist->addSong(*song2);
 
     // Displaying all songs in the playlist
     myPlaylist->displayAll();
@@ -117,13 +122,9 @@ int main() {
     cout << "Number of Playlist objects: " << Playlist::getPlaylistCount() << endl;
 
     // Deleting dynamically allocated Song objects
-    for (Song* song : songArray) {
-        delete song;
-    }
-
-    // Deleting dynamically allocated Playlist objects
+    delete song1;
+    delete song2;
     delete myPlaylist;
-    delete anotherPlaylist;
 
     // Displaying static variable values after deletion
     cout << "Number of Song objects after deletion: " << Song::getSongCount() << endl;
