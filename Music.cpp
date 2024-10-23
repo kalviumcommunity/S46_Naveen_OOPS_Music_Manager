@@ -109,7 +109,7 @@ int main() {
     myPlaylist->displayAll();
 
     cout << "Number of Song objects: " << Song::getSongCount() << endl;
-    cout << "Number of Playlist objects: " << Playlist::getPlaylistCount() << endl;
+    cout << "Number of playlist objects: " << Playlist::getPlaylistCount() << endl;
 
     delete song1;
     delete song2;
