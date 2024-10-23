@@ -6,58 +6,62 @@ using namespace std;
 
 class Song {
 protected:
-    string title;   
+    string title;
     string artist;
 
 public:
     Song(string t, string a) : title(t), artist(a) {}
 
-    virtual void display() const {
-        cout << "Title: " << title << ", Artist: " << artist << endl;
+    virtual void display() const = 0;
+
+    virtual ~Song() {
+        cout << "Song object destroyed.\n";
     }
 };
 class SpecialSong : public Song {
 private:
-    string genre;
+    string genre;  
 public:
     SpecialSong(string t, string a, string g) : Song(t, a), genre(g) {}
 
     void display() const override {
-        cout << "Title: " << title << ", Artist: " << artist << ", Genre: " << genre << endl;
+        cout << "Special Song - Title: " << title << ", Artist: " << artist << ", Genre: " << genre << endl;
+    }
+
+    ~SpecialSong() {
+        cout << "SpecialSong object destroyed.\n";
     }
 };
 
 class Playlist {
 private:
     vector<Song*> songs; 
-
 public:
-    void addSong(Song &song) {
-        songs.push_back(&song);
-    }
-
-    void addSong(string title, string artist) {
-        Song* newSong = new Song(title, artist);
-        songs.push_back(newSong);
+    void addSong(Song* song) {
+        songs.push_back(song);
     }
 
     void displayAll() const {
-        for (const auto &song : songs) {
+        for (const auto& song : songs) {
             song->display(); 
+        }
+    }
+
+    ~Playlist() {
+        for (auto& song : songs) {
+            delete song;  
         }
     }
 };
 
 int main() {
-    Song song1("Song One", "Artist A");
-    SpecialSong specialSong1("Special Song", "Artist B", "Pop");
-
     Playlist myPlaylist;
 
-    myPlaylist.addSong(song1);  
-    myPlaylist.addSong(specialSong1);  
+    Song* specialSong1 = new SpecialSong("Special Song 1", "Artist A", "Pop");
+    myPlaylist.addSong(specialSong1);
 
-    myPlaylist.addSong("Song Two", "Artist C");
+    Song* specialSong2 = new SpecialSong("Special Song 2", "Artist B", "Rock");
+    myPlaylist.addSong(specialSong2);
 
     myPlaylist.displayAll();
 
