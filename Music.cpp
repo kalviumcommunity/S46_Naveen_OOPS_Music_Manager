@@ -2,119 +2,64 @@
 #include <vector>
 #include <string>
 
-using namespace std; 
+using namespace std;
 
-class Media {
+class Song {
 protected:
-    string title;  
-public:
-   
-    Media(string t) : title(t) {}
+    string title;   
+    string artist;
 
-  
+public:
+    Song(string t, string a) : title(t), artist(a) {}
+
     virtual void display() const {
-        cout << "Title: " << title << endl;
+        cout << "Title: " << title << ", Artist: " << artist << endl;
     }
 };
-
-class Song : public Media {
+class SpecialSong : public Song {
 private:
-    string artist; 
-    static int songCount;
-
+    string genre;
 public:
-    Song(string t, string a) : Media(t), artist(a) {
-        songCount++;
-    }
-
-    ~Song() {
-        songCount--;
-    }
-
-  
-    string getArtist() const {
-        return artist;
-    }
-
-    void setArtist(const string &a) {
-        artist = a;
-    }
-    static int getSongCount() {
-        return songCount;
-    }
+    SpecialSong(string t, string a, string g) : Song(t, a), genre(g) {}
 
     void display() const override {
-        cout << "Song - Title: " << title << ", Artist: " << artist << endl;
+        cout << "Title: " << title << ", Artist: " << artist << ", Genre: " << genre << endl;
     }
 };
 
-int Song::songCount = 0;
-
-class Podcast : public Media {
-private:
-    string host; 
-
-public:
-    Podcast(string t, string h) : Media(t), host(h) {}
-
-    void display() const override {
-        cout << "Podcast - Title: " << title << ", Host: " << host << endl;
-    }
-};
 class Playlist {
 private:
-    vector<Media*> mediaList;
-    static int playlistCount; 
+    vector<Song*> songs; 
 
 public:
-    Playlist() {
-        playlistCount++;
+    void addSong(Song &song) {
+        songs.push_back(&song);
     }
 
-    ~Playlist() {
-        playlistCount--;
-    }
-
-    void addMedia(Media* media) {
-        this->mediaList.push_back(media);
+    void addSong(string title, string artist) {
+        Song* newSong = new Song(title, artist);
+        songs.push_back(newSong);
     }
 
     void displayAll() const {
-        for (const auto &media : this->mediaList) {
-            media->display(); 
+        for (const auto &song : songs) {
+            song->display(); 
         }
-    }
-    static int getPlaylistCount() {
-        return playlistCount;
     }
 };
 
-int Playlist::playlistCount = 0;
-
 int main() {
-    Song* song1 = new Song("Song One", "Artist A");
-    Song* song2 = new Song("Song Two", "Artist B");
+    Song song1("Song One", "Artist A");
+    SpecialSong specialSong1("Special Song", "Artist B", "Pop");
 
-    Podcast* podcast1 = new Podcast("Podcast One", "Host A");
+    Playlist myPlaylist;
 
-    song1->display();
-    song2->display();
-    podcast1->display();
+    myPlaylist.addSong(song1);  
+    myPlaylist.addSong(specialSong1);  
 
-    Playlist* myPlaylist = new Playlist();
-    myPlaylist->addMedia(song1);
-    myPlaylist->addMedia(song2);
-    myPlaylist->addMedia(podcast1);
+    myPlaylist.addSong("Song Two", "Artist C");
 
-    myPlaylist->displayAll();
-
-    cout << "Number of Song objects: " << Song::getSongCount() << endl;
-    cout << "Number of playlist objects: " << Playlist::getPlaylistCount() << endl;
-
-    delete song1;
-    delete song2;
-    delete podcast1;
-    delete myPlaylist;
+    myPlaylist.displayAll();
 
     return 0;
 }
