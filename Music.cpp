@@ -11,6 +11,7 @@ protected:
     string artist;
 
 public:
+    // Constructor to initialize title and artist
     Song(string t, string a) : title(t), artist(a) {}
 
     // Pure virtual function to enforce specific implementation in derived classes
@@ -28,6 +29,7 @@ private:
     string genre; // Unique attribute for SpecialSong
 
 public:
+    // Constructor to initialize title, artist, and genre
     SpecialSong(string t, string a, string g) : Song(t, a), genre(g) {}
 
     // Override the display function to show SpecialSong details
